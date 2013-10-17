@@ -64,13 +64,15 @@ driver.findCopters()
     return uri;
 })
 .then(function(uri) { return copter.connect(uri); })
+.then(function(){
+    copter.driver.telemetry.subscribe('motor', handleMotorTelemetry.bind(copter));
+})
 .then(function() { 
-    //copter.driver.telemetry.subscribe('motor', handleMotorTelemetry.bind(copter));
     return copter.takeoff(); 
 })
 .then(function()
 {
-    setTimeout(land, 4000);
+    setTimeout(land, 10000);
     return copter.hover();
 })
 .fail(function(err)

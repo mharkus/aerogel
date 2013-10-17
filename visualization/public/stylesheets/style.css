@@ -1,0 +1,66 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: url('../images/gun_metal.png');
+}
+
+a {
+  color: #00B7FF;
+}
+
+#motors{
+	float: left;
+	width: 400px;
+	background: rgba(66,64,64, 0.5);
+	border: 1px solid black;
+	text-align: center;
+	padding: 20px;
+	height: 340px;
+}
+
+#stabilizer{
+	float: left;
+	width: 500px;
+	height: 340px;
+	background: rgba(66,64,64, 0.5);
+	border: 1px solid black;
+	text-align: center;
+	padding: 20px;	
+}
+
+.gauge{
+	width: 160px;
+	float: left;
+	margin: 10px;
+}
+
+#thrust .gauge{
+	width: 300px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#stabilizer3D{
+	float: left;
+	background: rgba(66,64,64, 0.5);
+	border: 1px solid black;
+	text-align: center;
+	padding: 20px;
+	height: 340px;
+	width: 440px;
+}
+
+#plot{
+	background: rgba(66,64,64, 0.5);
+	border: 1px solid black;
+	text-align: center;
+	float: left;
+	width: 800px;
+	
+}
+
+#startButton{
+	width: 120px;
+	min-height: 100px;
+	padding: 20px;
+}
