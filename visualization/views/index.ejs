@@ -15,6 +15,7 @@
 	<script type="text/javascript">
 		var cfRunning;
 		$(document).ready(function(){
+
 			$('#button').on('click', function(){
 				$(this).toggleClass('on');
 				if(!cfRunning){
@@ -24,34 +25,11 @@
 					stopCF();
 					cfRunning = false;
 				}
-				
-				
 			});
 
+			drawFlightPanel();
 			connectToServer();
-
-			var canvas = document.getElementById('footerbg');
-      var context = canvas.getContext('2d');
-      var x = canvas.width / 2;
-      var y = canvas.height + 20;
-      var radius = 160;
-      var startAngle = 1 * Math.PI;
-      var endAngle = 2 * Math.PI;
-      var counterClockwise = false;
-
-      var lingrad = context.createLinearGradient(0,0,0,380);
-      lingrad.addColorStop(0, '#222');
-      lingrad.addColorStop(1, '#000');
-
-      context.beginPath();
-      context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-      context.fillStyle = lingrad;
-      context.fill();
-
-      context.strokeStyle = '#000';
-      context.stroke();
-
-		});
+	});
 	</script>
  
   </head>
@@ -59,7 +37,6 @@
   		<div id="wrap">
 
 			<div id="main">
-
 			</div>
 		</div>
 
@@ -68,27 +45,51 @@
 			<div id='motorContainer'> 
 				<span class='motors' id="motor1"></span>
 				<span class='motors' id="motor2"></span>
-				<div style='float: left; height: 400px'>
+				<div style='float: left'>
 				<span class='motors' id="motor3"></span>
 				<span class='motors' id="motor4"></span>
 				</div>
 				<span id="thrust"></span>
-				<span class="linkQuality">
-				<progress  value="10" max="100" id="linkQuality">No progress bar</progress>
+				<span class="signals">
+				<progress  value="90" max="100" id="linkQuality">No progress bar</progress>
+					<label for="linkQuality" class="genericLabel">Link Quality</label>
 				</span>
-				<span class="linkQuality" >
-				<progress value="50" max="100" id="batteryLevel">No progress bar</progress>
+				<span class="signals" >
+					<progress value="0" max="100" id="batteryLevel">No progress bar</progress>
+					<label for="batteryLevel" class="genericLabel">Battery Level</label>
 				</span>
-				<span class="linkQuality">
-				<progress value="25" max="100" id="linkQuality">No progress bar</progress>
-				</span>
-				<span class="linkQuality">
-				<progress value="25" max="100" id="linkQuality">No progress bar</progress>
-				</span>
-				<span class="linkQuality">
-				<progress value="85" max="100" id="linkQuality">No progress bar</progress>
-				</span>
-				<div style='float:left; width: 50px; margin-top: 180px; margin-left: 70px'>
+				<div id="sensorData">
+					<label  class="genericLabel">Accelerometer</label>	
+					<div style='clear: both'>
+						<label  class="genericField">x: </label>	
+						<label id="accx"  class="genericValue">0</label>	
+					</div>
+					<div style='clear: both'>
+						<label  class="genericField">y: </label>	
+						<label id="accy"  class="genericValue">0</label>	
+					</div>	
+					<div style='clear: both'>
+						<label  class="genericField">z: </label>	
+						<label id="accz"  class="genericValue">0</label>	
+					</div>
+					<div style='clear: both; margin-top: 20px'>
+						<label  class="genericLabel">Gyro</label>	
+					<div style='clear: both'>
+						<label  class="genericField">x: </label>	
+						<label id="gyrox"  class="genericValue">0</label>	
+					</div>
+					<div style='clear: both'>
+						<label  class="genericField">y: </label>	
+						<label id="gyroy"  class="genericValue">0</label>	
+					</div>	
+					<div style='clear: both'>
+						<label  class="genericField">z: </label>	
+						<label id="gyroz"  class="genericValue">0</label>	
+					</div>
+					</div>
+				</div>
+
+				<div id='powerButton'>
 		  			<section style='float: left; position: relative; top: -100px; left: 0'>
 					<a href="#" id="button">&#xF011;</a>
 					<span></span>

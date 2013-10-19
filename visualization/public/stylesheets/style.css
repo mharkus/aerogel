@@ -10,6 +10,7 @@ body {
   height: 100%;
   padding: 0px;
   margin: 0px;
+  overflow: hidden;
 }
 
 a {
@@ -75,7 +76,7 @@ a {
 
 #thrust .gauge{
 	margin-top: 40px;
-	margin-left: 20px;
+	margin-left: 50px;
 	margin-right: 20px;
 	text-align: center;
 }
@@ -96,20 +97,26 @@ a {
 
 
 
-.linkQuality{
+.signals{
 	float: left;
 	position: relative;
-	margin-top: 210px;
-	margin-left: -60px;
-	width: 130px;
+	margin-top: 180px;
+	margin-left: -30px;
+	width: 143px;
 }
 
-.linkQuality progress{
+.signals label{
+	float: right;
+	text-align: center;
+	margin-top: 90px;
+}
+
+.signals progress{
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	background: #333;
-	width: 200px;
-	height: 38px;
+	width: 190px;
+	height: 39px;
 	border-radius: 10px;
 }
 
@@ -123,3 +130,34 @@ progress::-webkit-progress-value {
     background: #2c54ff;
     border-radius: 5px;
 }  
+
+.genericLabel{
+	color: #a0a0a0;
+	font-weight: bold;
+	margin: 5px;
+}
+
+.genericField{
+	color: #909090;
+	margin: 10px;
+}
+
+.genericValue{
+	color: #909090;
+	font-size: 12px;	
+}
+
+#sensorData{
+	margin-left: 30px;
+	margin-top: 130px;
+	width: 120px;
+	float: left;
+}
+
+#powerButton{
+	float:left; 
+	width: 50px; 
+	margin-top: 160px; 
+	margin-left: 20px;
+	height: 80px;
+}

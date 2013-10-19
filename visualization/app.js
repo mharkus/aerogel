@@ -43,7 +43,7 @@ var mSocket;
 io.sockets.on('connection', function (socket) {
   mSocket = socket;
 
-  startCF();
+  //startCF();
 
   mSocket.on('command', function (data) {
   	console.log(data);
@@ -56,7 +56,7 @@ io.sockets.on('connection', function (socket) {
 
   mSocket.on('disconnect', function () {
         console.log('Shutting down crazyflie...');
-        bail();
+        //bail();
     });
 });
 
@@ -171,7 +171,6 @@ function handleBatteryTelemetry(data){
 }
 
 function handleMotorTelemetry(data){
-    //console.log("motor: "+data.m1 + " / " + data.m2 + " / " + data.m3 + " / " + data.m4);
     if(mSocket){
     	mSocket.emit('motor', data);		
     }
@@ -180,7 +179,6 @@ function handleMotorTelemetry(data){
 }
 
 function handleStabilizerTelemetry(data){
-    //console.log("stabilizer: "+data.roll + " / " + data.yaw + " / " + data.pitch + " / " + data.thrust);
     if(mSocket){
     	mSocket.emit('stabilizer', data);	
  	}   	
@@ -188,7 +186,6 @@ function handleStabilizerTelemetry(data){
 }
 
 function handleAccelerometerTelemetry(data){
-    //console.log("accelerometer: "+data.x + " / " + data.y + " / " + data.z);
     if(mSocket){
     	mSocket.emit('accelerometer', data);	
     }
@@ -196,7 +193,6 @@ function handleAccelerometerTelemetry(data){
 }
 
 function handleGyroTelemetry(data){
-    //console.log("gyro: "+data.x + " / " + data.y + " / " + data.z);
     if(mSocket){
     	mSocket.emit('gyro', data);	
     }

@@ -198,62 +198,79 @@ var socket;
           ];
         }
 
+function drawFlightPanel(){
+  var canvas = document.getElementById('footerbg');
+      var context = canvas.getContext('2d');
+      var x = canvas.width / 2;
+      var y = canvas.height + 20;
+      var radius = 160;
+      var startAngle = 1 * Math.PI;
+      var endAngle = 2 * Math.PI;
+      var counterClockwise = false;
+
+      var lingrad = context.createLinearGradient(0,0,0,380);
+      lingrad.addColorStop(0, 'rgba(44,44,44,1)');
+      lingrad.addColorStop(0.3, 'rgba(11,11,11,0.9)');
+      lingrad.addColorStop(1, 'rgba(0,0,0,0.3)');
+
+      context.fillStyle = "rgba(255, 255, 255, 0.5)";
+      context.beginPath();
+      context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+      context.fillStyle = lingrad;
+      context.fill();
+    context.lineWidth = 2;
+      context.strokeStyle = '#000';
+      context.stroke();
+
+}
 
 function connectToServer(){
   socket = io.connect('http://localhost');
       socket.on('stabilizer', function (data) {
-        //var pitch = data.pitch * 180 / Math.PI;
-        //var roll = data.roll * 180 / Math.PI;
-        //var yaw = data.yaw * 180 / Math.PI;
-
-        var pitch = data.pitch * Math.PI / 180;
-        var roll = data.roll * Math.PI / 180;
-        var yaw = data.yaw * Math.PI / 180;
-        
-
-        //cube.rotation.x = pitch + 270 * (Math.PI / 180);
-        //cube.rotation.y = roll;
-        //cube.rotation.z = yaw;  
-
-        if(renderer){
-          renderer.render( scene, camera ); 
-        } 
-
-
-        gauges["thrust"].redraw((data.thrust/65535) * 100);
+            var pitch = data.pitch * Math.PI / 180;
+            var roll = data.roll * Math.PI / 180;
+            var yaw = data.yaw * Math.PI / 180;
+            gauges["thrust"].redraw((data.thrust/65535) * 100);
       });
 
       socket.on('accelerometer', function (data) {
-        
+            $('#accx').html(formatDecimal(data.x));
+            $('#accy').html(formatDecimal(data.y));
+            $('#accz').html(formatDecimal(data.z));
       });
 
       socket.on('gyro', function (data) {
-        
-        
+          if(data){
+            $('#gyrox').html(formatDecimal(data.x));
+            $('#gyroy').html(formatDecimal(data.y));
+            $('#gyroz').html(formatDecimal(data.z));
+          }
       });
 
       socket.on('battery', function (data) {
         $('#batteryLevel').val((data.level * 1000 - 2974)/(4153 - 2974) * 100);
-        console.log((data.level * 1000 - 2974)/(4153 - 2974));
-        console.log(data.level);
       });
 
       socket.on('end', function (data) {
-        gauges["motor1"].redraw(0);
-        gauges["motor2"].redraw(0);
-        gauges["motor3"].redraw(0);
-        gauges["motor4"].redraw(0);
-        gauges["thrust"].redraw(0);
+            gauges["motor1"].redraw(0);
+            gauges["motor2"].redraw(0);
+            gauges["motor3"].redraw(0);
+            gauges["motor4"].redraw(0);
+            gauges["thrust"].redraw(0);
 
-        $('#button').toggleClass('on');
+            $('#button').toggleClass('on');
         
       });
 
       socket.on('motor', function (data) {
-        gauges["motor1"].redraw((data.m1/65535) * 100);
-        gauges["motor2"].redraw((data.m2/65535) * 100);
-        gauges["motor3"].redraw((data.m3/65535) * 100);
-        gauges["motor4"].redraw((data.m4/65535) * 100);
+            gauges["motor1"].redraw((data.m1/65535) * 100);
+            gauges["motor2"].redraw((data.m2/65535) * 100);
+            gauges["motor3"].redraw((data.m3/65535) * 100);
+            gauges["motor4"].redraw((data.m4/65535) * 100);
 
       });
+}
+
+function formatDecimal(val){
+  return Math.round(val * 100) / 100;
 }
