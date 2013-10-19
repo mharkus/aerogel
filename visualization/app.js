@@ -43,12 +43,21 @@ var mSocket;
 io.sockets.on('connection', function (socket) {
   mSocket = socket;
 
+  startCF();
+
   mSocket.on('command', function (data) {
   	console.log(data);
     if(data.action == 'start'){
-    	startCF();
+    	takeOff();
+    }else if(data.action == 'stop'){
+    	land();
     }
   });
+
+  mSocket.on('disconnect', function () {
+        console.log('Shutting down crazyflie...');
+        bail();
+    });
 });
 
 
@@ -70,7 +79,7 @@ function bail()
 function land()
 {
     copter.land()
-    .then(function() { return copter.shutdown(); })
+    //.then(function() { return copter.shutdown(); })
     .then(function(response)
     {
         console.log(response);
@@ -92,6 +101,25 @@ function land()
     })
     .done();
 }
+
+
+function takeOff(){
+
+	copter.takeoff()
+	.then(function()
+	{
+	    //setTimeout(land, 30000);
+	    return copter.hover();
+	})
+	.fail(function(err)
+	{
+	    console.log(err);
+	    console.log(err.stack);
+	    bail();
+	})
+	.done();
+}
+
 
 function startCF(){
 	driver = new Aerogel.CrazyDriver();
@@ -118,18 +146,11 @@ function startCF(){
 	})
 	.then(function(uri) { return copter.connect(uri); })
 	.then(function(){
-	    copter.driver.telemetry.subscribe('motor', handleMotorTelemetry.bind(copter));
+		copter.driver.telemetry.subscribe('battery', handleBatteryTelemetry.bind(copter));
+		copter.driver.telemetry.subscribe('motor', handleMotorTelemetry.bind(copter));
 	    copter.driver.telemetry.subscribe('stabilizer', handleStabilizerTelemetry.bind(copter));
 	    copter.driver.telemetry.subscribe('accelerometer', handleAccelerometerTelemetry.bind(copter));
 	    copter.driver.telemetry.subscribe('gyro', handleGyroTelemetry.bind(copter));
-	})
-	.then(function() { 
-	    return copter.takeoff(); 
-	})
-	.then(function()
-	{
-	    setTimeout(land, 30000);
-	    return copter.hover();
 	})
 	.fail(function(err)
 	{
@@ -141,8 +162,16 @@ function startCF(){
 }
 
 
+function handleBatteryTelemetry(data){
+    if(mSocket){
+    	mSocket.emit('battery', data);		
+    }
+    
+	
+}
+
 function handleMotorTelemetry(data){
-    console.log("motor: "+data.m1 + " / " + data.m2 + " / " + data.m3 + " / " + data.m4);
+    //console.log("motor: "+data.m1 + " / " + data.m2 + " / " + data.m3 + " / " + data.m4);
     if(mSocket){
     	mSocket.emit('motor', data);		
     }
@@ -151,7 +180,7 @@ function handleMotorTelemetry(data){
 }
 
 function handleStabilizerTelemetry(data){
-    console.log("stabilizer: "+data.roll + " / " + data.yaw + " / " + data.pitch + " / " + data.thrust);
+    //console.log("stabilizer: "+data.roll + " / " + data.yaw + " / " + data.pitch + " / " + data.thrust);
     if(mSocket){
     	mSocket.emit('stabilizer', data);	
  	}   	
@@ -159,7 +188,7 @@ function handleStabilizerTelemetry(data){
 }
 
 function handleAccelerometerTelemetry(data){
-    console.log("accelerometer: "+data.x + " / " + data.y + " / " + data.z);
+    //console.log("accelerometer: "+data.x + " / " + data.y + " / " + data.z);
     if(mSocket){
     	mSocket.emit('accelerometer', data);	
     }
@@ -167,7 +196,7 @@ function handleAccelerometerTelemetry(data){
 }
 
 function handleGyroTelemetry(data){
-    console.log("gyro: "+data.x + " / " + data.y + " / " + data.z);
+    //console.log("gyro: "+data.x + " / " + data.y + " / " + data.z);
     if(mSocket){
     	mSocket.emit('gyro', data);	
     }

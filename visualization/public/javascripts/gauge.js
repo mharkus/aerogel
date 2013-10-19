@@ -8,9 +8,9 @@ function Gauge(placeholderName, configuration)
 	{
 		this.config = configuration;
 		
-		this.config.size = this.config.size * 0.9;
+		this.config.size = this.config.size ;
 		
-		this.config.raduis = this.config.size * 0.97 / 2;
+		this.config.raduis = this.config.size / 2;
 		this.config.cx = this.config.size / 2;
 		this.config.cy = this.config.size / 2;
 		
@@ -23,7 +23,7 @@ function Gauge(placeholderName, configuration)
 		
 		this.config.greenColor 	= configuration.greenColor || "#109618";
 		this.config.yellowColor = configuration.yellowColor || "#FF9900";
-		this.config.redColor 	= configuration.redColor || "#DC3912";
+		this.config.redColor 	= configuration.redColor || "#ff722c";
 		
 		this.config.transitionDuration = configuration.transitionDuration || 500;
 	}
@@ -40,16 +40,16 @@ function Gauge(placeholderName, configuration)
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
 					.attr("r", this.config.raduis)
-					.style("fill", "#ccc")
+					.style("fill", "#303030")
 					.style("stroke", "#000")
 					.style("stroke-width", "0.5px");
 					
 		this.body.append("svg:circle")
 					.attr("cx", this.config.cx)
 					.attr("cy", this.config.cy)
-					.attr("r", 0.9 * this.config.raduis)
-					.style("fill", "#fff")
-					.style("stroke", "#e0e0e0")
+					.attr("r", 0.94 * this.config.raduis)
+					.style("fill", "#000")
+					.style("stroke", "#000")
 					.style("stroke-width", "2px");
 					
 		for (var index in this.config.greenZones)
@@ -77,7 +77,7 @@ function Gauge(placeholderName, configuration)
 						.attr("text-anchor", "middle")
 						.text(this.config.label)
 						.style("font-size", fontSize + "px")
-						.style("fill", "#333")
+						.style("fill", "#f0f0f0")
 						.style("stroke-width", "0px");
 		}
 		
@@ -96,7 +96,7 @@ function Gauge(placeholderName, configuration)
 							.attr("y1", point1.y)
 							.attr("x2", point2.x)
 							.attr("y2", point2.y)
-							.style("stroke", "#666")
+							.style("stroke", "#2c54ff")
 							.style("stroke-width", "1px");
 			}
 			
@@ -108,7 +108,7 @@ function Gauge(placeholderName, configuration)
 						.attr("y1", point1.y)
 						.attr("x2", point2.x)
 						.attr("y2", point2.y)
-						.style("stroke", "#333")
+						.style("stroke", "#2c54ff")
 						.style("stroke-width", "2px");
 			
 			if (major == this.config.min || major == this.config.max)
@@ -122,7 +122,7 @@ function Gauge(placeholderName, configuration)
 				 			.attr("text-anchor", major == this.config.min ? "start" : "end")
 				 			.text(major)
 				 			.style("font-size", fontSize + "px")
-							.style("fill", "#333")
+							.style("fill", "#f0f0f0")
 							.style("stroke-width", "0px");
 			}
 		}
@@ -143,15 +143,15 @@ function Gauge(placeholderName, configuration)
 							.enter()
 								.append("svg:path")
 									.attr("d", pointerLine)
-									.style("fill", "#dc3912")
-									.style("stroke", "#c63310")
+									.style("fill", "#2c54ff")
+									.style("stroke", "#2c54ff")
 									.style("fill-opacity", 0.7)
 					
 		pointerContainer.append("svg:circle")
 							.attr("cx", this.config.cx)
 							.attr("cy", this.config.cy)
 							.attr("r", 0.12 * this.config.raduis)
-							.style("fill", "#4684EE")
+							.style("fill", "#000")
 							.style("stroke", "#666")
 							.style("opacity", 1);
 		
@@ -165,7 +165,7 @@ function Gauge(placeholderName, configuration)
 									.attr("dy", fontSize / 2)
 									.attr("text-anchor", "middle")
 									.style("font-size", fontSize + "px")
-									.style("fill", "#000")
+									.style("fill", "#f0f0f0")
 									.style("stroke-width", "0px");
 		
 		this.redraw(this.config.min, 0);
@@ -204,7 +204,7 @@ function Gauge(placeholderName, configuration)
 					.attr("d", d3.svg.arc()
 						.startAngle(this.valueToRadians(start))
 						.endAngle(this.valueToRadians(end))
-						.innerRadius(0.65 * this.config.raduis)
+						.innerRadius(0.70 * this.config.raduis)
 						.outerRadius(0.85 * this.config.raduis))
 					.attr("transform", function() { return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(270)" });
 	}
