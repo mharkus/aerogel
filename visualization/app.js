@@ -43,10 +43,9 @@ var mSocket;
 io.sockets.on('connection', function (socket) {
   mSocket = socket;
 
-  //startCF();
+  startCF();
 
   mSocket.on('command', function (data) {
-  	console.log(data);
     if(data.action == 'start'){
     	takeOff();
     }else if(data.action == 'stop'){
@@ -56,13 +55,9 @@ io.sockets.on('connection', function (socket) {
 
   mSocket.on('disconnect', function () {
         console.log('Shutting down crazyflie...');
-        //bail();
+        bail();
     });
 });
-
-
-
-
 
 // crazy flie
 
@@ -79,11 +74,9 @@ function bail()
 function land()
 {
     copter.land()
-    //.then(function() { return copter.shutdown(); })
     .then(function(response)
     {
         console.log(response);
-        //process.exit(0);
         if(mSocket){
     		mSocket.emit('end', 0);	
  		}   	
@@ -96,7 +89,6 @@ function land()
         .then(function(response)
         {
             console.log(response);
-            //process.exit(1);
         });
     })
     .done();
@@ -108,7 +100,6 @@ function takeOff(){
 	copter.takeoff()
 	.then(function()
 	{
-	    //setTimeout(land, 30000);
 	    return copter.hover();
 	})
 	.fail(function(err)
@@ -133,7 +124,6 @@ function startCF(){
 	        if(mSocket){
     			mSocket.emit('message', "No copters found! Is your copter turned on?");	
     		}
-	       // process.exit(1);
 	    }
 
 	    var uri = copters[0];
